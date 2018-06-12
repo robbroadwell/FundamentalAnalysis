@@ -15,6 +15,14 @@
 		D4570F8F20D08160008D946E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4570F8D20D08160008D946E /* LaunchScreen.storyboard */; };
 		D4570F9A20D08160008D946E /* xTradeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4570F9920D08160008D946E /* xTradeTests.swift */; };
 		D4570FA520D08160008D946E /* xTradeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4570FA420D08160008D946E /* xTradeUITests.swift */; };
+		D4570FB320D088AA008D946E /* NYSE.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4570FB220D088AA008D946E /* NYSE.swift */; };
+		D4570FB520D088C1008D946E /* Nasdaq.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4570FB420D088C1008D946E /* Nasdaq.swift */; };
+		D4570FBB20D08946008D946E /* NetworkController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4570FBA20D08946008D946E /* NetworkController.swift */; };
+		D4570FBD20D0895A008D946E /* NetworkRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4570FBC20D0895A008D946E /* NetworkRequestBuilder.swift */; };
+		D4570FBF20D0896F008D946E /* NetworkDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4570FBE20D0896F008D946E /* NetworkDelegate.swift */; };
+		D4570FC220D08990008D946E /* Stock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4570FC120D08990008D946E /* Stock.swift */; };
+		D4570FC520D08AA3008D946E /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4570FC420D08AA3008D946E /* String+.swift */; };
+		D4570FC820D08B4A008D946E /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4570FC720D08B4A008D946E /* DataController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +57,14 @@
 		D4570FA020D08160008D946E /* xTradeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = xTradeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4570FA420D08160008D946E /* xTradeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = xTradeUITests.swift; sourceTree = "<group>"; };
 		D4570FA620D08160008D946E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D4570FB220D088AA008D946E /* NYSE.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NYSE.swift; sourceTree = "<group>"; };
+		D4570FB420D088C1008D946E /* Nasdaq.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Nasdaq.swift; sourceTree = "<group>"; };
+		D4570FBA20D08946008D946E /* NetworkController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkController.swift; sourceTree = "<group>"; };
+		D4570FBC20D0895A008D946E /* NetworkRequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequestBuilder.swift; sourceTree = "<group>"; };
+		D4570FBE20D0896F008D946E /* NetworkDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkDelegate.swift; sourceTree = "<group>"; };
+		D4570FC120D08990008D946E /* Stock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stock.swift; sourceTree = "<group>"; };
+		D4570FC420D08AA3008D946E /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
+		D4570FC720D08B4A008D946E /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,12 +116,13 @@
 			isa = PBXGroup;
 			children = (
 				D4570F8220D0815D008D946E /* AppDelegate.swift */,
-				D4570F8420D0815D008D946E /* MasterViewController.swift */,
-				D4570F8620D0815D008D946E /* DetailViewController.swift */,
-				D4570F8820D0815D008D946E /* Main.storyboard */,
 				D4570F8B20D08160008D946E /* Assets.xcassets */,
-				D4570F8D20D08160008D946E /* LaunchScreen.storyboard */,
 				D4570F9020D08160008D946E /* Info.plist */,
+				D4570FB820D088F7008D946E /* Views */,
+				D4570FC020D08985008D946E /* Models */,
+				D4570FC620D08B3E008D946E /* Data */,
+				D4570FB920D08921008D946E /* Networking */,
+				D4570FC320D08A9A008D946E /* Extensions */,
 			);
 			path = xTrade;
 			sourceTree = "<group>";
@@ -126,6 +143,61 @@
 				D4570FA620D08160008D946E /* Info.plist */,
 			);
 			path = xTradeUITests;
+			sourceTree = "<group>";
+		};
+		D4570FB720D088E5008D946E /* Exchanges */ = {
+			isa = PBXGroup;
+			children = (
+				D4570FB220D088AA008D946E /* NYSE.swift */,
+				D4570FB420D088C1008D946E /* Nasdaq.swift */,
+			);
+			path = Exchanges;
+			sourceTree = "<group>";
+		};
+		D4570FB820D088F7008D946E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				D4570F8820D0815D008D946E /* Main.storyboard */,
+				D4570F8D20D08160008D946E /* LaunchScreen.storyboard */,
+				D4570F8420D0815D008D946E /* MasterViewController.swift */,
+				D4570F8620D0815D008D946E /* DetailViewController.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		D4570FB920D08921008D946E /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				D4570FBA20D08946008D946E /* NetworkController.swift */,
+				D4570FBC20D0895A008D946E /* NetworkRequestBuilder.swift */,
+				D4570FBE20D0896F008D946E /* NetworkDelegate.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		D4570FC020D08985008D946E /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				D4570FB720D088E5008D946E /* Exchanges */,
+				D4570FC120D08990008D946E /* Stock.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		D4570FC320D08A9A008D946E /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				D4570FC420D08AA3008D946E /* String+.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		D4570FC620D08B3E008D946E /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				D4570FC720D08B4A008D946E /* DataController.swift */,
+			);
+			path = Data;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -259,9 +331,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D4570FB520D088C1008D946E /* Nasdaq.swift in Sources */,
+				D4570FB320D088AA008D946E /* NYSE.swift in Sources */,
+				D4570FC520D08AA3008D946E /* String+.swift in Sources */,
+				D4570FBB20D08946008D946E /* NetworkController.swift in Sources */,
 				D4570F8720D0815D008D946E /* DetailViewController.swift in Sources */,
+				D4570FC820D08B4A008D946E /* DataController.swift in Sources */,
+				D4570FBD20D0895A008D946E /* NetworkRequestBuilder.swift in Sources */,
+				D4570FBF20D0896F008D946E /* NetworkDelegate.swift in Sources */,
 				D4570F8520D0815D008D946E /* MasterViewController.swift in Sources */,
 				D4570F8320D0815D008D946E /* AppDelegate.swift in Sources */,
+				D4570FC220D08990008D946E /* Stock.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
