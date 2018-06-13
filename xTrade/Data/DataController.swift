@@ -13,12 +13,13 @@ import SwiftyJSON
 class DataController: NetworkDelegate {
     
     public var stocks: Results<Stock>!
-    public var sortedStocks = List<Stock>()
+    public var sorted = List<Stock>()
     
     private var symbols: [String] {
         let nyse = NYSE.symbols.lines
         let nasdaq = Nasdaq.symbols.lines
-        return nyse + nasdaq
+//        return nyse + nasdaq
+        return nasdaq
     }
     
     func initialize() {
@@ -36,22 +37,23 @@ class DataController: NetworkDelegate {
         
         stocks = realm.objects(Stock.self)
         
-        DispatchQueue.main.async {
-            guard let stocks = self.stocks else { return }
-            
-            for stock in stocks {
-                if stock.needsRefresh() {
-                    
-                    GlobalNetworkController.fetchData(for: stock, andEndpoint: .company)
-                    GlobalNetworkController.fetchData(for: stock, andEndpoint: .quote)
-                    GlobalNetworkController.fetchData(for: stock, andEndpoint: .stats)
-                    
-                    try! realm.write {
-                        stock.fetched = Date()
-                    }
+        guard let stocks = self.stocks else { return }
+        
+        for stock in stocks {
+            if stock.needsRefresh() {
+                
+                GlobalNetworkController.fetchData(for: stock, andEndpoint: .company)
+                GlobalNetworkController.fetchData(for: stock, andEndpoint: .quote)
+                GlobalNetworkController.fetchData(for: stock, andEndpoint: .stats)
+                
+                try! realm.write {
+                    stock.fetched = Date()
                 }
             }
         }
+        
+        sorted.removeAll()
+        sorted.append(objectsIn: stocks.sorted(byKeyPath: "name", ascending: true))
     }
     
     func networkManager(didFinishTaskFor endpoint: NetworkDataEndpoint, with data: Data) {
@@ -85,6 +87,7 @@ class DataController: NetworkDelegate {
                                              "priceToBook": json["priceToBook"].doubleValue], update: true)
             
         }
+        
     }
     
     private func updateCompanyWithData(_ data: Data) {
@@ -98,7 +101,7 @@ class DataController: NetworkDelegate {
                                              "exchange": json["exchange"].stringValue,
                                              "industry": json["industry"].stringValue,
                                              "sector": json["sector"].stringValue,
-                                             "ceo": json["ceo"].stringValue,
+                                             "ceo": json["CEO"].stringValue,
                                              "issueType": json["issueType"].stringValue], update: true)
             
         }

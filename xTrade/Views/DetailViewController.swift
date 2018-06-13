@@ -9,20 +9,40 @@
 import UIKit
 import RealmSwift
 
-class DetailViewController: UIViewController {
+class DetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var token: NotificationToken!
 
+    @IBOutlet weak var tableView: UITableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.title = "6,421 Securities"
         
+        tableView.delegate = self
+        tableView.dataSource = self
+        
         token = GlobalDataController.stocks.observe { changes in
-            // update tableview
+            self.tableView.reloadData()
         }
         
     }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell()
+        let stock = GlobalDataController.sorted[indexPath.row]
+        let string = stock.name + "/" + stock.ceo + "/" + stock.exchange
 
+        cell.textLabel?.text = string
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return GlobalDataController.sorted.count
+    }
+    
+    deinit {
+        token.invalidate()
+    }
 }
-
