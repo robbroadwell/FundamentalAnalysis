@@ -32,7 +32,7 @@ class DetailViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
         let stock = GlobalDataController.sorted[indexPath.row]
-        let string = stock.name + "/" + stock.ceo + "/" + stock.exchange
+        let string = stock.symbol + "/" + stock.name + "/" + stock.exchange
 
         cell.textLabel?.text = string
         return cell

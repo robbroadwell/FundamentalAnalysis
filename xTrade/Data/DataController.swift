@@ -18,42 +18,49 @@ class DataController: NetworkDelegate {
     private var symbols: [String] {
         let nyse = NYSE.symbols.lines
         let nasdaq = Nasdaq.symbols.lines
-//        return nyse + nasdaq
-        return nasdaq
+        return nyse + nasdaq
     }
     
     func initialize() {
-        GlobalNetworkController.register(delegate: self)
-        
         let realm = try! Realm()
-        
-        for symbol in symbols {
-            if !symbol.contains("^") {
-                try! realm.write {
-                    realm.create(Stock.self, value: ["id": symbol, "symbol": symbol], update: true)
-                }
-            }
-        }
-        
         stocks = realm.objects(Stock.self)
         
-        guard let stocks = self.stocks else { return }
-        
-        for stock in stocks {
-            if stock.needsRefresh() {
-                
-                GlobalNetworkController.fetchData(for: stock, andEndpoint: .company)
-                GlobalNetworkController.fetchData(for: stock, andEndpoint: .quote)
-                GlobalNetworkController.fetchData(for: stock, andEndpoint: .stats)
-                
-                try! realm.write {
-                    stock.fetched = Date()
+        DispatchQueue.global(qos: .background).async {
+            GlobalNetworkController.register(delegate: self)
+            
+            let realm = try! Realm()
+            
+            for symbol in self.symbols {
+                if !symbol.contains("^") {
+                    try! realm.write {
+                        realm.create(Stock.self, value: ["id": symbol, "symbol": symbol], update: true)
+                    }
+                }
+            }
+            
+            // notify that basic UI is ready
+            
+            DispatchQueue.main.async(execute: {
+                self.sorted.removeAll()
+                self.sorted.append(objectsIn: self.stocks.sorted(byKeyPath: "name", ascending: true))
+            })
+            
+            let stocks = realm.objects(Stock.self)
+            
+            for stock in stocks {
+                if stock.needsRefresh() {
+                    
+                    GlobalNetworkController.fetchData(for: stock, andEndpoint: .company)
+                    GlobalNetworkController.fetchData(for: stock, andEndpoint: .quote)
+                    GlobalNetworkController.fetchData(for: stock, andEndpoint: .stats)
+                    
+                    let realm = try! Realm()
+                    try! realm.write {
+                        stock.fetched = Date()
+                    }
                 }
             }
         }
-        
-        sorted.removeAll()
-        sorted.append(objectsIn: stocks.sorted(byKeyPath: "name", ascending: true))
     }
     
     func networkManager(didFinishTaskFor endpoint: NetworkDataEndpoint, with data: Data) {

@@ -11,7 +11,7 @@ import Foundation
 class NetworkController {
     
     /// The maximum number of network requests in progress at one time
-    let maxSimulataneousNetworkRequests = 5
+    let maxSimulataneousNetworkRequests = 10
     
     /// The current number of active network requests in progress
     var numberOfActiveNetworkRequests = 0
@@ -46,12 +46,12 @@ class NetworkController {
     }
     
     func attemptToBeginNetworkRequest() {
+        print("Active Network Requests: \(tasks.count)")
         if numberOfActiveNetworkRequests < maxSimulataneousNetworkRequests {
             for (_, task) in tasks {
                 if task.state == .suspended {
                     task.resume()
                     numberOfActiveNetworkRequests += 1
-                    print(tasks.count)
                     return
                 }
             }
