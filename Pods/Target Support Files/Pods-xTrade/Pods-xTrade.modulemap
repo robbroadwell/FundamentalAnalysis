@@ -1,0 +1,6 @@
+framework module Pods_xTrade {
+  umbrella header "Pods-xTrade-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -24,7 +24,6 @@ class Stock: Object {
     @objc dynamic var exchange: String = ""
     @objc dynamic var industry: String = ""
     @objc dynamic var sector: String = ""
-    @objc dynamic var description: String = ""
     @objc dynamic var ceo: String = ""
     @objc dynamic var issueType: String = ""
     
@@ -35,12 +34,15 @@ class Stock: Object {
     let priceToBook = RealmOptional<Double>()
     let returnOnEquity = RealmOptional<Double>()
     let priceToEarnings = RealmOptional<Double>()
+    let week52high = RealmOptional<Double>()
+    let week52low = RealmOptional<Double>()
+    let marketCap = RealmOptional<Double>()
     let rank = RealmOptional<Int>()
     
     func needsRefresh() -> Bool {
         if let fetched = self.fetched {
             if let diff = Calendar.current.dateComponents([.hour], from: fetched, to: Date()).hour,
-                diff < 12 {
+                diff < 24 {
                 return false
             }
         }

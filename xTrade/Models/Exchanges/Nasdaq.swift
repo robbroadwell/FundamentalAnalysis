@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 struct Nasdaq {
     static let symbols =
     """

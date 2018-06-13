@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 class DetailViewController: UIViewController {
     
@@ -17,14 +18,10 @@ class DetailViewController: UIViewController {
         
         self.title = "6,421 Securities"
         
-        let realm = try! Realm()
-        results = realm.objects(Stock.self)
-        
-        token = results.observe { changes in
-            self.tableView.reloadData()
+        token = GlobalDataController.stocks.observe { changes in
+            // update tableview
         }
         
-        configureView()
     }
 
 }

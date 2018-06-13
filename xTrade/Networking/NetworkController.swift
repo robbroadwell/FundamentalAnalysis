@@ -10,6 +10,12 @@ import Foundation
 
 class NetworkController {
     
+    /// The maximum number of network requests in progress at one time
+    let maxSimulataneousNetworkRequests = 5
+    
+    /// The current number of active network requests in progress
+    var numberOfActiveNetworkRequests = 0
+    
     /// Constructs URLRequests for available APIs
     var requestBuilder = NetworkRequestBuilder()
     
@@ -28,7 +34,6 @@ class NetworkController {
         if let request = requestBuilder.request(for: stock, andEndpoint: endpoint) {
             let symbol = stock.symbol
             
-            print("created requet for \(stock.symbol)")
             let task = urlSession.dataTask(with: request) { (data, response, error) in
                 self.networkRequestDidComplete(for: symbol, andEndpoint: endpoint, with: data, response: response, and: error)
             }
@@ -36,16 +41,32 @@ class NetworkController {
             let key = stock.symbol + endpoint.rawValue
             
             tasks[key] = task
-            task.resume()
+            attemptToBeginNetworkRequest()
         }
-        
+    }
+    
+    func attemptToBeginNetworkRequest() {
+        if numberOfActiveNetworkRequests < maxSimulataneousNetworkRequests {
+            for (_, task) in tasks {
+                if task.state == .suspended {
+                    task.resume()
+                    numberOfActiveNetworkRequests += 1
+                    print(tasks.count)
+                    return
+                }
+            }
+        }
     }
     
     private func networkRequestDidComplete(for symbol: String, andEndpoint endpoint: NetworkDataEndpoint,
                                            with data: Data?, response: URLResponse?, and error: Error?) {
         // Remove task once it has been completed
         let key = symbol + endpoint.rawValue
-        self.tasks.removeValue(forKey: key)
+        tasks.removeValue(forKey: key)
+        
+        // Start another network task
+        numberOfActiveNetworkRequests -= 1
+        attemptToBeginNetworkRequest()
         
         if let error = error {
             notifyDelegatesOnError(endpoint, error: error)
@@ -53,7 +74,6 @@ class NetworkController {
         }
         
         if let data = data {
-            print("downloaded data for \(symbol)")
             notifyDelegatesOnSuccess(endpoint, data: data)
             return
         }
