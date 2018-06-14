@@ -12,8 +12,10 @@ import SwiftyJSON
 
 class DataController: NetworkDelegate {
     
-    public var stocks: Results<Stock>!
-    public var sorted = List<Stock>()
+    public var sorted: Results<Stock>!
+    public var filtered = List<Stock>()
+    
+    private var lastFilterApplied: FilterCriteria?
     
     private var symbols: [String] {
         let nyse = NYSE.symbols.lines
@@ -23,7 +25,10 @@ class DataController: NetworkDelegate {
     
     func initialize() {
         let realm = try! Realm()
-        stocks = realm.objects(Stock.self)
+        sorted = realm.objects(Stock.self)
+        
+        filtered.removeAll()
+        filtered.append(objectsIn: self.sorted)
         
         DispatchQueue.global(qos: .background).async {
             GlobalNetworkController.register(delegate: self)
@@ -37,13 +42,6 @@ class DataController: NetworkDelegate {
                     }
                 }
             }
-            
-            // notify that basic UI is ready
-            
-            DispatchQueue.main.async(execute: {
-                self.sorted.removeAll()
-                self.sorted.append(objectsIn: self.stocks.sorted(byKeyPath: "name", ascending: true))
-            })
             
             let stocks = realm.objects(Stock.self)
             
@@ -61,6 +59,28 @@ class DataController: NetworkDelegate {
                 }
             }
         }
+    }
+    
+    func filterByFilterCriteria(_ criteria: FilterCriteria?) {
+        
+        filtered.removeAll()
+        
+        if let predicates = criteria?.predicates, predicates.count > 0 {
+            
+            let compoundPredicate = NSCompoundPredicate(type: .and, subpredicates: predicates)
+            filtered.append(objectsIn: sorted.filter(compoundPredicate))
+            
+            lastFilterApplied = criteria
+            
+        } else {
+            filtered.append(objectsIn: sorted)
+            
+        }
+    }
+    
+    func sortBySortCriteria(_ criteria: SortCriteria) {
+        sorted = sorted.sorted(byKeyPath: criteria.sortField, ascending: criteria.ascending)
+        filterByFilterCriteria(lastFilterApplied)
     }
     
     func networkManager(didFinishTaskFor endpoint: NetworkDataEndpoint, with data: Data) {

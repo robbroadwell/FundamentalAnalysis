@@ -8,6 +8,17 @@
 
 import UIKit
 
+struct FilterCriteria {
+    var displayName: String
+    var predicates: [NSPredicate]
+}
+
+struct SortCriteria {
+    var displayName: String
+    var sortField: String
+    var ascending: Bool
+}
+
 class MasterViewController: UITableViewController {
 
     var detailViewController: DetailViewController? = nil
@@ -19,30 +30,41 @@ class MasterViewController: UITableViewController {
                    "Return on Equity",
                    "Price/Earnings"]
     
-    let marketCaps = ["Small Cap: <$2B",
-                      "Medium Cap: $2B-$10B",
-                      "Large Cap: >$10B"]
+    let marketCaps = [FilterCriteria(displayName: "Small Cap: <$2B",
+                                    predicates: [NSPredicate(format: "marketCap < 2000000000")]),
+                      FilterCriteria(displayName: "Medium Cap: $2B-$20B",
+                                    predicates: [NSPredicate(format: "marketCap > 2000000000"),
+                                                 NSPredicate(format: "marketCap < 20000000000")]),
+                      FilterCriteria(displayName: "Large Cap: >$20B",
+                                    predicates: [NSPredicate(format: "marketCap > 20000000000")])]
     
-    let industries = ["Real Estate",
-                      "Technology",
-                      "Materials",
-                      "Healthcare",
-                      "Energy",
-                      "Telecom",
-                      "Industrials",
-                      "Financials",
-                      "Utilities",
-                      "Consumer Discretionary",
-                      "Consumer Staples"]
+    let industries = [FilterCriteria(displayName: "Real Estate",
+                                    predicates: [NSPredicate(format: "sector == %@", "Real Estate")]),
+                      FilterCriteria(displayName: "Technology",
+                                    predicates: [NSPredicate(format: "sector == %@", "Technology")]),
+                      FilterCriteria(displayName: "Basic Materials",
+                                    predicates: [NSPredicate(format: "sector == %@", "Basic Materials")]),
+                      FilterCriteria(displayName: "Healthcare",
+                                    predicates: [NSPredicate(format: "sector == %@", "Healthcare")]),
+                      FilterCriteria(displayName: "Energy",
+                                    predicates: [NSPredicate(format: "sector == %@", "Energy")]),
+                      FilterCriteria(displayName: "Communication Services",
+                                    predicates: [NSPredicate(format: "sector == %@", "Communication Services")]),
+                      FilterCriteria(displayName: "Industrials",
+                                    predicates: [NSPredicate(format: "sector == %@", "Industrials")]),
+                      FilterCriteria(displayName: "Financials",
+                                    predicates: [NSPredicate(format: "sector == %@", "Financial Services")]),
+                      FilterCriteria(displayName: "Utilities",
+                                    predicates: [NSPredicate(format: "sector == %@", "Utilities")]),
+                      FilterCriteria(displayName: "Consumer Cyclical",
+                                    predicates: [NSPredicate(format: "sector == %@", "Consumer Cyclical")]),
+                      FilterCriteria(displayName: "Consumer Defensive",
+                                    predicates: [NSPredicate(format: "sector == %@", "Consumer Defensive")])]
     
-    let type = ["ADR",
-                "REIT",
-                "CE",
-                "SI",
-                "LP",
-                "CS",
-                "ETF",
-                "Other"]
+    let type = [FilterCriteria(displayName: "Stock",
+                              predicates: [NSPredicate(format: "issueType == %@", "cs")]),
+                FilterCriteria(displayName: "ETF",
+                              predicates: [NSPredicate(format: "issueType == %@", "et")])]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,49 +86,36 @@ class MasterViewController: UITableViewController {
     // MARK: - Table View
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 4
+        return 3
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
-        if section == 0 {
-            return "Factors for Overall Rank"
+        switch section {
+        case 0: return "Market Capitalization"
+        case 1: return "Industry"
+        case 2: return "Type"
+        default: return "Error"
         }
-        
-        if section == 1 {
-            return "Market Capitalization"
-        }
-        
-        if section == 2 {
-            return "Industry"
-        }
-        
-        if section == 3 {
-            return "Type"
-        }
-        
-        return "Error"
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if section == 0 {
-            return factors.count
+        switch section {
+        case 0: return marketCaps.count
+        case 1: return industries.count
+        case 2: return type.count
+        default: return 0
         }
-        
-        if section == 1 {
-            return marketCaps.count
+    }
+    
+    private func criteriaForIndexPath(_ indexPath: IndexPath) -> FilterCriteria? {
+        switch indexPath.section {
+        case 0: return marketCaps[indexPath.row]
+        case 1: return industries[indexPath.row]
+        case 2: return type[indexPath.row]
+        default: return nil
         }
-        
-        if section == 2 {
-            return industries.count
-        }
-        
-        if section == 3 {
-            return type.count
-        }
-        
-        return 0
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -114,25 +123,17 @@ class MasterViewController: UITableViewController {
         
         var title = ""
         
-        if indexPath.section == 0 {
-            title = factors[indexPath.row]
-        }
-        
-        if indexPath.section == 1 {
-            title = marketCaps[indexPath.row]
-        }
-        
-        if indexPath.section == 2 {
-            title = industries[indexPath.row]
-        }
-        
-        if indexPath.section == 3 {
-            title = type[indexPath.row]
+        if let query = criteriaForIndexPath(indexPath) {
+            title = query.displayName
         }
         
         cell.textLabel?.text = title
         
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        GlobalDataController.filterByFilterCriteria(criteriaForIndexPath(indexPath))
     }
 
 }

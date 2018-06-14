@@ -12,34 +12,45 @@ import RealmSwift
 class DetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var token: NotificationToken!
+    
+    private var ascending = false
 
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = "6,421 Securities"
-        
         tableView.delegate = self
         tableView.dataSource = self
         
-        token = GlobalDataController.stocks.observe { changes in
-            self.tableView.reloadData()
+        token = GlobalDataController.sorted.observe { changes in
+            if GlobalDataController.filtered.count != 0  {
+                self.title = "\(GlobalDataController.filtered.count) securities"
+                self.tableView.reloadData()
+            }
         }
         
     }
     
+    @IBAction func sortPressed(_ sender: Any) {
+        let sort = SortCriteria(displayName: "Market Capitalization", sortField: "marketCap", ascending: false)
+        GlobalDataController.sortBySortCriteria(sort)
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
-        let stock = GlobalDataController.sorted[indexPath.row]
-        let string = stock.symbol + "/" + stock.name + "/" + stock.exchange
+        let stock = GlobalDataController.filtered[indexPath.row]
+        
+        if let marketCap = stock.marketCap.value {
+            let string = stock.symbol + "/" + stock.name + "/" + String(marketCap)
+            cell.textLabel?.text = string
+        }
 
-        cell.textLabel?.text = string
         return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return GlobalDataController.sorted.count
+        return GlobalDataController.filtered.count
     }
     
     deinit {
