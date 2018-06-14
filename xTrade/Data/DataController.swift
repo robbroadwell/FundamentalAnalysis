@@ -15,7 +15,7 @@ class DataController: NetworkDelegate {
     public var sorted: Results<Stock>!
     public var filtered = List<Stock>()
     
-    private var lastFilterApplied: FilterCriteria?
+    private var lastFiltersApplied = [FilterCriteria]()
     
     private var symbols: [String] {
         let nyse = NYSE.symbols.lines
@@ -61,26 +61,40 @@ class DataController: NetworkDelegate {
         }
     }
     
-    func filterByFilterCriteria(_ criteria: FilterCriteria?) {
+    func filterByFilterCriteria(_ criteria: [FilterCriteria]) {
         
         filtered.removeAll()
         
-        if let predicates = criteria?.predicates, predicates.count > 0 {
-            
-            let compoundPredicate = NSCompoundPredicate(type: .and, subpredicates: predicates)
+        guard criteria.count > 0 else {
+            filtered.append(objectsIn: sorted)
+            return
+        }
+        
+        var predicates = [NSPredicate]()
+        
+        for item in criteria {
+            if item.predicates.count > 0 {
+                for predicate in item.predicates {
+                    predicates.append(predicate)
+                }
+            }
+        }
+        
+        if predicates.count > 0 {
+            let compoundPredicate = NSCompoundPredicate(type: .or, subpredicates: predicates)
             filtered.append(objectsIn: sorted.filter(compoundPredicate))
             
-            lastFilterApplied = criteria
+            lastFiltersApplied = criteria
             
         } else {
             filtered.append(objectsIn: sorted)
-            
         }
+    
     }
     
     func sortBySortCriteria(_ criteria: SortCriteria) {
         sorted = sorted.sorted(byKeyPath: criteria.sortField, ascending: criteria.ascending)
-        filterByFilterCriteria(lastFilterApplied)
+        filterByFilterCriteria(lastFiltersApplied)
     }
     
     func networkManager(didFinishTaskFor endpoint: NetworkDataEndpoint, with data: Data) {
