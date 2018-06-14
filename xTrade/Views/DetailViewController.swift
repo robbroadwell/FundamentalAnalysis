@@ -35,6 +35,7 @@ class DetailViewController: UIViewController, UITableViewDelegate, UITableViewDa
     @IBAction func sortPressed(_ sender: Any) {
         let sort = SortCriteria(displayName: "Market Capitalization", sortField: "marketCap", ascending: false)
         GlobalDataController.sortBySortCriteria(sort)
+        tableView.reloadData()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
