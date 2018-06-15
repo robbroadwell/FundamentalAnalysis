@@ -25,6 +25,8 @@
 		D4570FC220D08990008D946E /* Stock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4570FC120D08990008D946E /* Stock.swift */; };
 		D4570FC520D08AA3008D946E /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4570FC420D08AA3008D946E /* String+.swift */; };
 		D4570FC820D08B4A008D946E /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4570FC720D08B4A008D946E /* DataController.swift */; };
+		D4BC96F520D443EC00E50174 /* SortViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BC96F420D443EC00E50174 /* SortViewController.swift */; };
+		D4BC96F720D44E3B00E50174 /* StockCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BC96F620D44E3B00E50174 /* StockCell.swift */; };
 		FD3BC21A060E91D220DD7430 /* Pods_xTradeUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C367B4FAC2D5EA060996AAEC /* Pods_xTradeUITests.framework */; };
 /* End PBXBuildFile section */
 
@@ -76,6 +78,8 @@
 		D4570FC120D08990008D946E /* Stock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stock.swift; sourceTree = "<group>"; };
 		D4570FC420D08AA3008D946E /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		D4570FC720D08B4A008D946E /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
+		D4BC96F420D443EC00E50174 /* SortViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortViewController.swift; sourceTree = "<group>"; };
+		D4BC96F620D44E3B00E50174 /* StockCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockCell.swift; sourceTree = "<group>"; };
 		D5F694810C8F20CBDACC2BE1 /* Pods_xTradeTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_xTradeTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -201,6 +205,8 @@
 				D4570F8D20D08160008D946E /* LaunchScreen.storyboard */,
 				D4570F8420D0815D008D946E /* MasterViewController.swift */,
 				D4570F8620D0815D008D946E /* DetailViewController.swift */,
+				D4BC96F420D443EC00E50174 /* SortViewController.swift */,
+				D4BC96F620D44E3B00E50174 /* StockCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -456,10 +462,12 @@
 			files = (
 				D4570FB520D088C1008D946E /* Nasdaq.swift in Sources */,
 				D4570FB320D088AA008D946E /* NYSE.swift in Sources */,
+				D4BC96F520D443EC00E50174 /* SortViewController.swift in Sources */,
 				D4570FC520D08AA3008D946E /* String+.swift in Sources */,
 				D4570FBB20D08946008D946E /* NetworkController.swift in Sources */,
 				D4570F8720D0815D008D946E /* DetailViewController.swift in Sources */,
 				D4570FC820D08B4A008D946E /* DataController.swift in Sources */,
+				D4BC96F720D44E3B00E50174 /* StockCell.swift in Sources */,
 				D4570FBD20D0895A008D946E /* NetworkRequestBuilder.swift in Sources */,
 				D4570FBF20D0896F008D946E /* NetworkDelegate.swift in Sources */,
 				D4570F8520D0815D008D946E /* MasterViewController.swift in Sources */,

@@ -12,8 +12,8 @@ import SwiftyJSON
 
 class DataController: NetworkDelegate {
     
-    public var sorted: Results<Stock>!
-    public var filtered = List<Stock>()
+    public var sorted: Results<Stock>! // happens first
+    public var filtered = List<Stock>() // happens second
     
     private var lastFilterApplied: FilterCriteria?
     
@@ -25,10 +25,10 @@ class DataController: NetworkDelegate {
     
     func initialize() {
         let realm = try! Realm()
-        sorted = realm.objects(Stock.self)
         
-        filtered.removeAll()
-        filtered.append(objectsIn: self.sorted)
+        self.sorted = realm.objects(Stock.self)
+        self.filtered.removeAll()
+        self.filtered.append(objectsIn: self.sorted)
         
         DispatchQueue.global(qos: .background).async {
             GlobalNetworkController.register(delegate: self)

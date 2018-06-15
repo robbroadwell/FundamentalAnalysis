@@ -9,7 +9,7 @@
 import UIKit
 import RealmSwift
 
-class DetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class DetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, SortDelegate {
     
     var token: NotificationToken!
     
@@ -32,20 +32,40 @@ class DetailViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
     }
     
-    @IBAction func sortPressed(_ sender: Any) {
-        let sort = SortCriteria(displayName: "Market Capitalization", sortField: "marketCap", ascending: false)
+    func    sortBySortCriteria(_ sort: SortCriteria) {
         GlobalDataController.sortBySortCriteria(sort)
         tableView.reloadData()
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let identifier = segue.identifier else {
+            return
+        }
+        
+        switch identifier {
+        case "ShowSort":
+            if let destination = segue.destination as? SortViewController {
+                destination.sortDelegate = self
+            }
+        default:
+            print("Unexpected segue: \(identifier)")
+        }
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "StockCell", for: indexPath) as? StockCell else {
+            return UITableViewCell()
+        }
+        
         let stock = GlobalDataController.filtered[indexPath.row]
         
-        if let marketCap = stock.marketCap.value {
-            let string = stock.symbol + "/" + stock.name + "/" + String(marketCap)
-            cell.textLabel?.text = string
-        }
+        cell.dividendYieldLabel.text = String(stock.dividendYield.value ?? 0.0)
+        cell.marketCapitalizationLabel.text = String(stock.marketCap.value ?? 0.0)
+        cell.priceLabel.text = String(stock.price.value ?? 0.0)
+        cell.priceToEarningsLabel.text = String(stock.priceToEarnings.value ?? 0.0)
+        cell.profitMarginLabel.text = String(stock.profitMargin.value ?? 0.0)
+        cell.returnOnEquityLabel.text = String(stock.returnOnEquity.value ?? 0.0)
+        cell.symbolLabel.text = stock.symbol
 
         return cell
     }

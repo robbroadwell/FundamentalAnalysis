@@ -13,12 +13,6 @@ struct FilterCriteria {
     var predicates: [NSPredicate]
 }
 
-struct SortCriteria {
-    var displayName: String
-    var sortField: String
-    var ascending: Bool
-}
-
 class MasterViewController: UITableViewController {
 
     var detailViewController: DetailViewController? = nil
