@@ -11,7 +11,6 @@ import UIKit
 struct FilterCriteria {
     var displayName: String
     var predicates: [NSPredicate]
-    var selected: Bool
 }
 
 struct SortCriteria {
@@ -32,40 +31,40 @@ class MasterViewController: UITableViewController {
                    "Price/Earnings"]
     
     let marketCaps = [FilterCriteria(displayName: "Small Cap: <$2B",
-                                     predicates: [NSPredicate(format: "marketCap < 2000000000")], selected: true),
+                                    predicates: [NSPredicate(format: "marketCap < 2000000000")]),
                       FilterCriteria(displayName: "Medium Cap: $2B-$20B",
                                     predicates: [NSPredicate(format: "marketCap > 2000000000"),
-                                                 NSPredicate(format: "marketCap < 20000000000")], selected: true),
+                                                 NSPredicate(format: "marketCap < 20000000000")]),
                       FilterCriteria(displayName: "Large Cap: >$20B",
-                                     predicates: [NSPredicate(format: "marketCap > 20000000000")], selected: true)]
+                                    predicates: [NSPredicate(format: "marketCap > 20000000000")])]
     
     let industries = [FilterCriteria(displayName: "Real Estate",
-                                     predicates: [NSPredicate(format: "sector == %@", "Real Estate")], selected: true),
+                                    predicates: [NSPredicate(format: "sector == %@", "Real Estate")]),
                       FilterCriteria(displayName: "Technology",
-                                     predicates: [NSPredicate(format: "sector == %@", "Technology")], selected: true),
+                                    predicates: [NSPredicate(format: "sector == %@", "Technology")]),
                       FilterCriteria(displayName: "Basic Materials",
-                                     predicates: [NSPredicate(format: "sector == %@", "Basic Materials")], selected: true),
+                                    predicates: [NSPredicate(format: "sector == %@", "Basic Materials")]),
                       FilterCriteria(displayName: "Healthcare",
-                                     predicates: [NSPredicate(format: "sector == %@", "Healthcare")], selected: true),
+                                    predicates: [NSPredicate(format: "sector == %@", "Healthcare")]),
                       FilterCriteria(displayName: "Energy",
-                                     predicates: [NSPredicate(format: "sector == %@", "Energy")], selected: true),
+                                    predicates: [NSPredicate(format: "sector == %@", "Energy")]),
                       FilterCriteria(displayName: "Communication Services",
-                                     predicates: [NSPredicate(format: "sector == %@", "Communication Services")], selected: true),
+                                    predicates: [NSPredicate(format: "sector == %@", "Communication Services")]),
                       FilterCriteria(displayName: "Industrials",
-                                     predicates: [NSPredicate(format: "sector == %@", "Industrials")], selected: true),
+                                    predicates: [NSPredicate(format: "sector == %@", "Industrials")]),
                       FilterCriteria(displayName: "Financials",
-                                     predicates: [NSPredicate(format: "sector == %@", "Financial Services")], selected: true),
+                                    predicates: [NSPredicate(format: "sector == %@", "Financial Services")]),
                       FilterCriteria(displayName: "Utilities",
-                                     predicates: [NSPredicate(format: "sector == %@", "Utilities")], selected: true),
+                                    predicates: [NSPredicate(format: "sector == %@", "Utilities")]),
                       FilterCriteria(displayName: "Consumer Cyclical",
-                                     predicates: [NSPredicate(format: "sector == %@", "Consumer Cyclical")], selected: true),
+                                    predicates: [NSPredicate(format: "sector == %@", "Consumer Cyclical")]),
                       FilterCriteria(displayName: "Consumer Defensive",
-                                     predicates: [NSPredicate(format: "sector == %@", "Consumer Defensive")], selected: true)]
+                                    predicates: [NSPredicate(format: "sector == %@", "Consumer Defensive")])]
     
     let type = [FilterCriteria(displayName: "Stock",
-                               predicates: [NSPredicate(format: "issueType == %@", "cs")], selected: true),
+                              predicates: [NSPredicate(format: "issueType == %@", "cs")]),
                 FilterCriteria(displayName: "ETF",
-                               predicates: [NSPredicate(format: "issueType == %@", "et")], selected: true)]
+                              predicates: [NSPredicate(format: "issueType == %@", "et")])]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -118,34 +117,6 @@ class MasterViewController: UITableViewController {
         default: return nil
         }
     }
-    
-    private func allSelectedSearchCriteria() -> [FilterCriteria] {
-        var criteria = [FilterCriteria]()
-        
-        for item in marketCaps {
-            if item.selected {
-                criteria.append(item)
-            }
-        }
-        
-        for item in industries {
-            if item.selected {
-                criteria.append(item)
-            }
-        }
-        
-        for item in type {
-            if item.selected {
-                criteria.append(item)
-            }
-        }
-        
-        if criteria.count == (marketCaps.count + industries.count + type.count) {
-            return [FilterCriteria]()
-        }
-        
-        return criteria
-    }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
@@ -154,7 +125,6 @@ class MasterViewController: UITableViewController {
         
         if let query = criteriaForIndexPath(indexPath) {
             title = query.displayName
-            cell.detailTextLabel?.text = query.selected ? "+" : ""
         }
         
         cell.textLabel?.text = title
@@ -163,8 +133,7 @@ class MasterViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        GlobalDataController.filterByFilterCriteria(criteriaForIndexPath(indexPath))
-        GlobalDataController.filterByFilterCriteria(allSelectedSearchCriteria())
+        GlobalDataController.filterByFilterCriteria(criteriaForIndexPath(indexPath))
     }
 
 }
