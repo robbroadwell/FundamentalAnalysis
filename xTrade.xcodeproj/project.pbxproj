@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		2066A1495C45654652A5C235 /* Pods_xTradeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5F694810C8F20CBDACC2BE1 /* Pods_xTradeTests.framework */; };
 		7049379C4E7C2EB75F24BC41 /* Pods_xTrade.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F60A5E9212A4B2E9DFE4784 /* Pods_xTrade.framework */; };
+		D44A200220D84A1700169FA9 /* StockHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = D44A200120D84A1700169FA9 /* StockHeader.xib */; };
+		D44A200420D84AEE00169FA9 /* StockHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44A200320D84AEE00169FA9 /* StockHeader.swift */; };
+		D44A200620D84C5300169FA9 /* Double+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44A200520D84C5300169FA9 /* Double+.swift */; };
 		D4570F8320D0815D008D946E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4570F8220D0815D008D946E /* AppDelegate.swift */; };
 		D4570F8520D0815D008D946E /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4570F8420D0815D008D946E /* MasterViewController.swift */; };
 		D4570F8720D0815D008D946E /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4570F8620D0815D008D946E /* DetailViewController.swift */; };
@@ -56,6 +59,9 @@
 		607B4A8548310196CD76A62E /* Pods-xTrade.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-xTrade.release.xcconfig"; path = "Pods/Target Support Files/Pods-xTrade/Pods-xTrade.release.xcconfig"; sourceTree = "<group>"; };
 		AD82F406776E745B93B5ADB5 /* Pods-xTradeUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-xTradeUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-xTradeUITests/Pods-xTradeUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		C367B4FAC2D5EA060996AAEC /* Pods_xTradeUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_xTradeUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D44A200120D84A1700169FA9 /* StockHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StockHeader.xib; sourceTree = "<group>"; };
+		D44A200320D84AEE00169FA9 /* StockHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockHeader.swift; sourceTree = "<group>"; };
+		D44A200520D84C5300169FA9 /* Double+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+.swift"; sourceTree = "<group>"; };
 		D4570F7F20D0815D008D946E /* xTrade.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = xTrade.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4570F8220D0815D008D946E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D4570F8420D0815D008D946E /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
@@ -207,6 +213,8 @@
 				D4570F8620D0815D008D946E /* DetailViewController.swift */,
 				D4BC96F420D443EC00E50174 /* SortViewController.swift */,
 				D4BC96F620D44E3B00E50174 /* StockCell.swift */,
+				D44A200120D84A1700169FA9 /* StockHeader.xib */,
+				D44A200320D84AEE00169FA9 /* StockHeader.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -234,6 +242,7 @@
 			isa = PBXGroup;
 			children = (
 				D4570FC420D08AA3008D946E /* String+.swift */,
+				D44A200520D84C5300169FA9 /* Double+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -355,6 +364,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D4570F8F20D08160008D946E /* LaunchScreen.storyboard in Resources */,
+				D44A200220D84A1700169FA9 /* StockHeader.xib in Resources */,
 				D4570F8C20D08160008D946E /* Assets.xcassets in Resources */,
 				D4570F8A20D0815D008D946E /* Main.storyboard in Resources */,
 			);
@@ -464,9 +474,11 @@
 				D4570FB320D088AA008D946E /* NYSE.swift in Sources */,
 				D4BC96F520D443EC00E50174 /* SortViewController.swift in Sources */,
 				D4570FC520D08AA3008D946E /* String+.swift in Sources */,
+				D44A200620D84C5300169FA9 /* Double+.swift in Sources */,
 				D4570FBB20D08946008D946E /* NetworkController.swift in Sources */,
 				D4570F8720D0815D008D946E /* DetailViewController.swift in Sources */,
 				D4570FC820D08B4A008D946E /* DataController.swift in Sources */,
+				D44A200420D84AEE00169FA9 /* StockHeader.swift in Sources */,
 				D4BC96F720D44E3B00E50174 /* StockCell.swift in Sources */,
 				D4570FBD20D0895A008D946E /* NetworkRequestBuilder.swift in Sources */,
 				D4570FBF20D0896F008D946E /* NetworkDelegate.swift in Sources */,

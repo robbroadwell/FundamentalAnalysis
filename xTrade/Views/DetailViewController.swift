@@ -58,16 +58,26 @@ class DetailViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
         
         let stock = GlobalDataController.filtered[indexPath.row]
+        let format = ".2" // two decimal places
         
-        cell.dividendYieldLabel.text = String(stock.dividendYield.value ?? 0.0)
-        cell.marketCapitalizationLabel.text = String(stock.marketCap.value ?? 0.0)
-        cell.priceLabel.text = String(stock.price.value ?? 0.0)
-        cell.priceToEarningsLabel.text = String(stock.priceToEarnings.value ?? 0.0)
-        cell.profitMarginLabel.text = String(stock.profitMargin.value ?? 0.0)
-        cell.returnOnEquityLabel.text = String(stock.returnOnEquity.value ?? 0.0)
+        cell.dividendYieldLabel.text = (stock.dividendYield.value ?? 0.0).format(f: format)
+        cell.priceLabel.text = (stock.price.value ?? 0.0).format(f: format)
+        cell.priceToEarningsLabel.text = (stock.priceToEarnings.value ?? 0.0).format(f: format)
+        cell.profitMarginLabel.text = (stock.profitMargin.value ?? 0.0).format(f: format)
+        cell.returnOnEquityLabel.text = (stock.returnOnEquity.value ?? 0.0).format(f: format)
+        cell.marketCapitalizationLabel.text = (stock.marketCap.value ?? 0.0).formatWithCommas()
+        
         cell.symbolLabel.text = stock.symbol
 
         return cell
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return StockHeader.instanceFromNib()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
